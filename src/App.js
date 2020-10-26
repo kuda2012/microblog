@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import NavBar from "./NavBar";
+import Router from "./Router";
+import PostContext from "./PostContext";
 function App() {
+  const [posts, setPosts] = useState({ posts: [] });
+  const addPost = (post) => {
+    setPosts((posts) => {
+      console.log(posts);
+      return posts.posts.push(post);
+    });
+  };
+  console.log(posts);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar />
+      <PostContext.Provider value={{ posts, addPost }}>
+        <Router />
+      </PostContext.Provider>
     </div>
   );
 }

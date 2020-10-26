@@ -1,0 +1,11 @@
+nav {
+  width: 100vw;
+  background-color: rgb(184, 206, 248);
+}
+li {
+  margin: 10px;
+}
+
+.link {
+  color: black;
+}
