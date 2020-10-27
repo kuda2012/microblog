@@ -1,17 +1,18 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import PostContext from "./PostContext";
-import { v4 as uuid } from "uuid";
 import "./PostForm.css";
 
-const PostForm = () => {
-  const { addPost } = useContext(PostContext);
+const PostForm = ({ postData }) => {
+  const { posts, addPost, setPostAdded } = useContext(PostContext);
   const history = useHistory();
-  const INITIAL_STATE = {
-    title: "",
-    description: "",
-    body: "",
-  };
+  const INITIAL_STATE = postData
+    ? postData
+    : {
+        title: "",
+        description: "",
+        body: "",
+      };
   const [formData, setFormData] = useState(INITIAL_STATE);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +20,13 @@ const PostForm = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // formData["id"] = uuid();
+    if (postData) {
+      formData["id"] = postData.id;
+    } else {
+      formData["id"] = posts["posts"] ? posts["posts"].length : 0;
+    }
     addPost(formData);
+    setPostAdded(true);
     history.push("/");
   };
   return (
