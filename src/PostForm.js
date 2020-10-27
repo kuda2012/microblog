@@ -1,10 +1,13 @@
 import React, { useState, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PostContext from "./PostContext";
 import "./PostForm.css";
 
 const PostForm = ({ postData }) => {
-  const { posts, addPost, setPostAdded } = useContext(PostContext);
+  const { addPost, setPostAdded } = useContext(PostContext);
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
   const history = useHistory();
   const INITIAL_STATE = postData
     ? postData
@@ -23,10 +26,10 @@ const PostForm = ({ postData }) => {
     if (postData) {
       formData["id"] = postData.id;
     } else {
-      formData["id"] = posts["posts"] ? posts["posts"].length : 0;
+      formData["id"] = posts ? posts.length : 0;
       formData["comments"] = [];
     }
-    addPost(formData);
+    const response = dispatch({ type: "ADD_POST", payload: formData });
     setPostAdded(true);
     history.push("/");
   };

@@ -5,13 +5,15 @@ import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 import "./Post.css";
+import { useSelector } from "react-redux";
 const Post = () => {
   let { postId } = useParams();
   let history = useHistory();
-  const { posts, setPostAdded, deletePost } = useContext(PostContext);
+  const { setPostAdded, deletePost } = useContext(PostContext);
+  const posts = useSelector((state) => state.posts);
   let post;
-  if (posts["posts"]) {
-    post = posts.posts.filter((post) => post.id === Number(postId))[0];
+  if (posts) {
+    post = posts.filter((post) => post.id === Number(postId))[0];
   }
   if (!post) {
     history.push("/");
