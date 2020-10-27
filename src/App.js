@@ -27,7 +27,7 @@ function App() {
   };
   const deletePost = (postId) => {
     setPosts((posts) => {
-      if (postId == posts["posts"].length) {
+      if (postId === posts["posts"].length) {
         posts["posts"] = posts["posts"].slice(0, postId);
       } else {
         posts["posts"] = [

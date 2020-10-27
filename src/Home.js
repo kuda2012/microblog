@@ -6,12 +6,21 @@ const Home = () => {
   const { posts } = useContext(PostContext);
   return (
     <div>
+      <p>
+        Welcome to Microblog. Where you communicate your thoughts in bite-sized
+        pieces.
+      </p>
       {posts.posts &&
         posts.posts.map((post) => {
           return (
-            <Link key={uuid()} to={`/${post.id}`}>
-              {post.title}
-            </Link>
+            <>
+              <div>
+                <Link key={uuid()} to={`/${post.id}`}>
+                  {post.title}
+                </Link>
+                <div>Description: {post.description}</div>
+              </div>
+            </>
           );
         })}
     </div>
