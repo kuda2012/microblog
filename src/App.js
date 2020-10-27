@@ -44,11 +44,40 @@ function App() {
     });
     history.push("/");
   };
+  const adjustComment = (verb, postId, comment) => {
+    setPosts((posts) => {
+      if (verb === "add") {
+        posts["posts"] = posts["posts"].map((post) => {
+          if (post["id"] === postId) {
+            post["comments"].push(comment);
+          }
+          return post;
+        });
+      } else {
+        posts["posts"] = posts["posts"].map((post) => {
+          if (comment.id === post["comments"].length) {
+            post["comments"] = post["comments"].slice(0, comment.id);
+          } else {
+            post["comments"] = [
+              ...post["comments"].slice(0, comment.id),
+              ...post["comments"].slice(comment.id + 1),
+            ];
+          }
+          post["comments"] = post["comments"].map((comment, i) => {
+            comment.id = i;
+            return comment;
+          });
+          return post;
+        });
+      }
+      return posts;
+    });
+  };
   return (
     <div className="App">
       <NavBar />
       <PostContext.Provider
-        value={{ posts, addPost, setPostAdded, deletePost }}
+        value={{ posts, addPost, setPostAdded, deletePost, adjustComment }}
       >
         <Router />
       </PostContext.Provider>

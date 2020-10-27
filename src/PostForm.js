@@ -24,6 +24,7 @@ const PostForm = ({ postData }) => {
       formData["id"] = postData.id;
     } else {
       formData["id"] = posts["posts"] ? posts["posts"].length : 0;
+      formData["comments"] = [];
     }
     addPost(formData);
     setPostAdded(true);

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import PostContext from "./PostContext";
+import PostCard from "./PostCard";
 import { v4 as uuid } from "uuid";
 const Home = () => {
   const { posts } = useContext(PostContext);
@@ -12,16 +12,7 @@ const Home = () => {
       </p>
       {posts.posts &&
         posts.posts.map((post) => {
-          return (
-            <>
-              <div>
-                <Link key={uuid()} to={`/${post.id}`}>
-                  {post.title}
-                </Link>
-                <div>Description: {post.description}</div>
-              </div>
-            </>
-          );
+          return <PostCard key={uuid()} post={post} />;
         })}
     </div>
   );
