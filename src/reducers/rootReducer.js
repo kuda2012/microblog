@@ -31,6 +31,26 @@ function rootReducer(state = INITIAL_STATE, action) {
         return post;
       });
       return { ...state, posts: addPostComment };
+    case "DELETE_COMMENT":
+      let deletePostComment = state.posts.map((post) => {
+        if (post.id == action.postId) {
+          if (action.payload.id === post.comments.length - 1) {
+            console.log("hi");
+            post.comments = post.comments.slice(0, action.payload.id);
+          } else {
+            post.comments = [
+              ...post.comments.slice(0, action.payload.id),
+              ...post.comments.slice(action.payload.id + 1),
+            ];
+          }
+          post.comments = post.comments.map((comment, i) => {
+            action.payload.id = i;
+            return comment;
+          });
+        }
+        return post;
+      });
+      return { ...state, posts: deletePostComment };
     default:
       return state;
   }

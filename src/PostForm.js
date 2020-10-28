@@ -23,6 +23,7 @@ const PostForm = ({ postData }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formData.title === "" || formData.body === "") return;
     if (postData) {
       formData["id"] = postData.id;
       formData["comments"] = [];
