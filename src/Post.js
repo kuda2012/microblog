@@ -5,9 +5,10 @@ import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 import "./Post.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const Post = () => {
   let { postId } = useParams();
+  const dispatch = useDispatch();
   let history = useHistory();
   const { setPostAdded, deletePost } = useContext(PostContext);
   const posts = useSelector((state) => state.posts);
@@ -49,8 +50,8 @@ const Post = () => {
                 className="btn btn-danger"
                 id="Post-delete"
                 onClick={() => {
-                  deletePost(post.id);
-                  setPostAdded(true);
+                  dispatch({ type: "DELETE_POST", payload: post.id });
+                  history.push("/");
                 }}
               >
                 Delete Post

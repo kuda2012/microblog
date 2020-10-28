@@ -29,8 +29,7 @@ const PostForm = ({ postData }) => {
       formData["id"] = posts ? posts.length : 0;
       formData["comments"] = [];
     }
-    const response = dispatch({ type: "ADD_POST", payload: formData });
-    setPostAdded(true);
+    dispatch({ type: "ADD_POST", payload: formData });
     history.push("/");
   };
   return (
