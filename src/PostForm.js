@@ -25,12 +25,17 @@ const PostForm = ({ postData }) => {
     e.preventDefault();
     if (postData) {
       formData["id"] = postData.id;
+      formData["comments"] = [];
     } else {
       formData["id"] = posts ? posts.length : 0;
       formData["comments"] = [];
     }
-    dispatch({ type: "ADD_POST", payload: formData });
-    history.push("/");
+    dispatch({
+      type: postData ? "EDIT_POST" : "ADD_POST",
+      payload: formData,
+    });
+    if (postData) dispatch({ type: "EDITING_MODE" });
+    history.push(postData ? `/${postData.id}` : "/");
   };
   return (
     <div>

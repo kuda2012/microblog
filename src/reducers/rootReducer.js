@@ -1,18 +1,28 @@
-const INITIAL_STATE = { posts: [] };
+const INITIAL_STATE = { posts: [], editing: false };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "ADD_POST":
-      return { ...state.posts, posts: [...state.posts, action.payload] };
+      return { ...state, posts: [...state.posts, action.payload] };
     case "DELETE_POST":
-      let posts = state.posts.filter((post) => post.id != action.payload);
+      let deletePosts = state.posts.filter((post) => post.id != action.payload);
       return {
-        ...state.posts,
-        posts: posts.map((post, i) => {
+        ...state,
+        posts: deletePosts.map((post, i) => {
           post.id = i;
           return post;
         }),
       };
+    case "EDITING_MODE":
+      return { ...state, editing: !state.editing };
+    case "EDIT_POST":
+      let editPosts = state.posts.map((post) => {
+        if (post.id === action.payload.id) {
+          post = action.payload;
+        }
+        return post;
+      });
+      return { ...state, posts: editPosts };
     default:
       return state;
   }

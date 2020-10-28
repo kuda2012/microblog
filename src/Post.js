@@ -20,6 +20,7 @@ const Post = () => {
     history.push("/");
   }
   const [editingPost, setEditingPost] = useState(false);
+  const editing = useSelector((state) => state.editing);
   const [formData, setFormData] = useState({
     title: post ? post.title : "",
     description: post ? post.description : "",
@@ -31,7 +32,7 @@ const Post = () => {
   };
   return (
     <>
-      {post && !editingPost && (
+      {post && !editing && (
         <>
           <div className="Post-container">
             <div className="Post">
@@ -42,7 +43,7 @@ const Post = () => {
             <div className="Post-buttons">
               <button
                 className="btn btn-primary"
-                onClick={() => prepPostEdit()}
+                onClick={() => dispatch({ type: "EDITING_MODE" })}
               >
                 Edit
               </button>
@@ -62,7 +63,7 @@ const Post = () => {
           <CommentForm post={post} />
         </>
       )}
-      {editingPost && <PostForm postData={formData} />}
+      {editing && <PostForm postData={formData} />}
     </>
   );
 };
