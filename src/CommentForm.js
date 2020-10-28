@@ -15,7 +15,6 @@ const CommentForm = ({ post }) => {
     e.preventDefault();
     if (formData.text === "") return;
     formData["id"] = post.comments.length === 0 ? 0 : post.comments.length;
-    console.log(formData["id"]);
     dispatch({ type: "ADD_COMMENT", payload: formData, postId: post.id });
     setFormData(INITIAL_STATE);
   };
