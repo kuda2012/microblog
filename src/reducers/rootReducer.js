@@ -15,6 +15,8 @@ function rootReducer(state = INITIAL_STATE, action) {
           return post;
         }),
       };
+    case "GET_POSTS":
+      return { ...state, posts: action.posts };
     case "EDITING_MODE":
       return { ...state, editing: !state.editing };
     case "EDIT_POST":

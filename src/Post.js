@@ -17,6 +17,7 @@ const Post = () => {
   if (!post) {
     history.push("/");
   }
+  
   const editing = useSelector((state) => state.editing);
   const [formData, setFormData] = useState({
     title: post ? post.title : "",
