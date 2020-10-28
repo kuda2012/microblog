@@ -3,7 +3,7 @@ const INITIAL_STATE = { posts: [], editing: false };
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "ADD_POST":
-      return { ...state, posts: [...state.posts, action.payload] };
+      return { ...state, posts: [...state.posts, action.post] };
     case "DELETE_POST":
       let deletePosts = state.posts.filter(
         (post) => post.id !== action.payload

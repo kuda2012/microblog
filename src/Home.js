@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PostCard from "./PostCard";
 import { v4 as uuid } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getPostsFromApi } from "./actionCreators";
 const Home = () => {
   const posts = useSelector((state) => state.posts);

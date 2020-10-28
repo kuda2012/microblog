@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { addPost } from "./actionCreators";
 import "./PostForm.css";
 
 const PostForm = ({ postData }) => {
@@ -22,17 +23,7 @@ const PostForm = ({ postData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.title === "" || formData.body === "") return;
-    if (postData) {
-      formData["id"] = postData.id;
-      formData["comments"] = [];
-    } else {
-      formData["id"] = posts ? posts.length : 0;
-      formData["comments"] = [];
-    }
-    dispatch({
-      type: postData ? "EDIT_POST" : "ADD_POST",
-      payload: formData,
-    });
+    dispatch(addPost(formData));
     if (postData) dispatch({ type: "EDITING_MODE" });
     history.push(postData ? `/${postData.id}` : "/");
   };
