@@ -23,6 +23,14 @@ function rootReducer(state = INITIAL_STATE, action) {
         return post;
       });
       return { ...state, posts: editPosts };
+    case "ADD_COMMENT":
+      let addPostComment = state.posts.map((post) => {
+        if (post.id === action.postId) {
+          post.comments.push(action.payload);
+        }
+        return post;
+      });
+      return { ...state, posts: addPostComment };
     default:
       return state;
   }

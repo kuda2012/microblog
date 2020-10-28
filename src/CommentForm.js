@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import PostContext from "./PostContext";
 import "./CommentForm.css";
+import { useDispatch } from "react-redux";
 const CommentForm = ({ post }) => {
   const { setPostAdded, adjustComment } = useContext(PostContext);
+  const dispatch = useDispatch();
   const INITIAL_STATE = { text: "" };
   const [formData, setFormData] = useState(INITIAL_STATE);
   const handleChange = (e) => {
@@ -13,9 +15,10 @@ const CommentForm = ({ post }) => {
     e.preventDefault();
     if (formData.text === "") return;
     formData["id"] = post["comments"].length;
-    adjustComment("add", post.id, formData);
+    dispatch({ type: "ADD_COMMENT", payload: formData, postId: post.id });
+    // adjustComment("add", post.id, formData);
     setFormData(INITIAL_STATE);
-    setPostAdded(true);
+    // setPostAdded(true);
   };
   return (
     <form onSubmit={handleSubmit} className="CommentForm">
