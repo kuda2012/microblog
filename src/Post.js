@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import PostContext from "./PostContext";
 import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
@@ -10,7 +9,6 @@ const Post = () => {
   let { postId } = useParams();
   const dispatch = useDispatch();
   let history = useHistory();
-  const { setPostAdded, deletePost } = useContext(PostContext);
   const posts = useSelector((state) => state.posts);
   let post;
   if (posts) {
@@ -19,7 +17,6 @@ const Post = () => {
   if (!post) {
     history.push("/");
   }
-  const [editingPost, setEditingPost] = useState(false);
   const editing = useSelector((state) => state.editing);
   const [formData, setFormData] = useState({
     title: post ? post.title : "",
@@ -27,9 +24,6 @@ const Post = () => {
     body: post ? post.body : "",
     id: post ? post.id : "",
   });
-  const prepPostEdit = () => {
-    setEditingPost(true);
-  };
   return (
     <>
       {post && !editing && (

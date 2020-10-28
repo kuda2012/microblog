@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PostContext from "./PostContext";
 import "./PostForm.css";
 
 const PostForm = ({ postData }) => {
-  const { addPost, setPostAdded } = useContext(PostContext);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const history = useHistory();

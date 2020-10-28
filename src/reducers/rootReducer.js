@@ -5,7 +5,9 @@ function rootReducer(state = INITIAL_STATE, action) {
     case "ADD_POST":
       return { ...state, posts: [...state.posts, action.payload] };
     case "DELETE_POST":
-      let deletePosts = state.posts.filter((post) => post.id != action.payload);
+      let deletePosts = state.posts.filter(
+        (post) => post.id !== action.payload
+      );
       return {
         ...state,
         posts: deletePosts.map((post, i) => {
@@ -33,9 +35,9 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, posts: addPostComment };
     case "DELETE_COMMENT":
       let deletePostComment = state.posts.map((post) => {
-        if (post.id == action.postId) {
+        if (post.id === action.postId) {
           post.comments = post.comments.filter(
-            (comment) => comment.id != action.payload.id
+            (comment) => comment.id !== action.payload.id
           );
           post.comments = post.comments.map((comment, i) => {
             comment.id = i;

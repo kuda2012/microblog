@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import PostContext from "./PostContext";
+import React from "react";
 import PostCard from "./PostCard";
 import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";

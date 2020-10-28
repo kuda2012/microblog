@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
-import PostContext from "./PostContext";
+import React, { useState } from "react";
 import "./CommentForm.css";
 import { useDispatch } from "react-redux";
 const CommentForm = ({ post }) => {
-  const { setPostAdded, adjustComment } = useContext(PostContext);
   const dispatch = useDispatch();
   const INITIAL_STATE = { text: "" };
   const [formData, setFormData] = useState(INITIAL_STATE);

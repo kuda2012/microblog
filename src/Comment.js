@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
-import PostContext from "./PostContext";
+import React from "react";
 import "./Comment.css";
 import { useDispatch } from "react-redux";
 
 const Comment = ({ comment, postId }) => {
-  const { adjustComment, setPostAdded } = useContext(PostContext);
   const dispatch = useDispatch();
   return (
     <li>
