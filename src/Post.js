@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import PostForm from "./PostForm";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
+import { getPost } from "./actionCreators";
 const Post = () => {
   let { postId } = useParams();
   const dispatch = useDispatch();
   let history = useHistory();
-  const posts = useSelector((state) => state.posts);
-  let post;
-  if (posts) {
-    post = posts.filter((post) => post.id === Number(postId))[0];
-  }
+  const { post, editing } = useSelector((state) => state);
+  useEffect(() => {
+    dispatch(getPost(postId));
+  }, [dispatch]);
   if (!post) {
     history.push("/");
   }
-  
-  const editing = useSelector((state) => state.editing);
   const [formData, setFormData] = useState({
     title: post ? post.title : "",
     description: post ? post.description : "",
@@ -27,7 +25,7 @@ const Post = () => {
   });
   return (
     <>
-      {post && !editing && (
+      {Object.keys(post).length != 0 && !editing && (
         <>
           <div className="Post-container">
             <div className="Post">
@@ -54,11 +52,11 @@ const Post = () => {
               </button>
             </div>
           </div>
-          <Comments post={post} />
+          {<Comments postId={postId} post={post} />}
           <CommentForm post={post} />
         </>
       )}
-      {editing && <PostForm postData={formData} />}
+      {editing && <PostForm postData={formData} post={post} />}
     </>
   );
 };

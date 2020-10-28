@@ -65,7 +65,10 @@ const PostForm = ({ postData }) => {
             id="cancel"
             type="button"
             value="Cancel"
-            onClick={() => history.push("/")}
+            onClick={() => {
+              dispatch({ type: "EDITING_MODE" });
+              history.push("/");
+            }}
           />
         </div>
       </form>

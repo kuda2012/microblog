@@ -13,7 +13,7 @@ const Router = () => {
       <Route exact path="/new">
         <PostForm />
       </Route>
-      <Route exact path="/:postId">
+      <Route exact path="/posts/:postId">
         <Post />
       </Route>
     </Switch>

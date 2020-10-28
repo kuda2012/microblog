@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Comment from "./Comment";
+import { useSelector, useDispatch } from "react-redux";
+import { getPost } from "./actionCreators";
 import { v4 as uuid } from "uuid";
-const Comments = ({ post }) => {
+const Comments = ({ postId, post }) => {
+  const dispatch = useDispatch();
+  console.log(post);
   return (
     <ul>
       <h3>Comments</h3>

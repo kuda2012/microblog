@@ -1,4 +1,4 @@
-const INITIAL_STATE = { posts: [], editing: false };
+const INITIAL_STATE = { posts: [], editing: false, post: {} };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -15,6 +15,8 @@ function rootReducer(state = INITIAL_STATE, action) {
           return post;
         }),
       };
+    case "GET_POST":
+      return { ...state, post: action.post };
     case "GET_POSTS":
       return { ...state, posts: action.posts };
     case "EDITING_MODE":
