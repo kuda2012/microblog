@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import PostCard from "./PostCard";
 import { v4 as uuid } from "uuid";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "./actionCreators";
-import { isEqual } from "lodash";
+
 const Home = () => {
   const posts = useSelector((state) => state.posts);
-  console.log(posts);
   const editing = useSelector((state) => state.editing);
   const dispatch = useDispatch();
 

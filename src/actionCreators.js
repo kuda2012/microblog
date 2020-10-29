@@ -1,4 +1,5 @@
 import axios from "axios";
+import { functionsIn } from "lodash";
 export function getPosts() {
   return async function (dispatch) {
     try {
@@ -45,10 +46,30 @@ export function editPost(formData) {
 export function deletePost(postId) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/posts/${postId}`
-      );
+      await axios.delete(`http://localhost:5000/api/posts/${postId}`);
       dispatch(postDeleted(postId));
+    } catch (error) {}
+  };
+}
+
+export function addComment(postId, formData) {
+  return async function (dispatch) {
+    try {
+      await axios.post(
+        `http://localhost:5000/api/posts/${postId}/comments`,
+        formData
+      );
+      dispatch(commentAdded(postId));
+    } catch (error) {}
+  };
+}
+export function getComments(postId) {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/posts/${postId}/comments`
+      );
+      dispatch(gotComments(data, postId));
     } catch (error) {}
   };
 }
@@ -81,6 +102,20 @@ export function postEdited(post) {
 export function postDeleted(postId) {
   return {
     type: "DELETE_POST",
+    postId,
+  };
+}
+
+export function commentAdded(postId) {
+  return {
+    type: "ADD_COMMENT",
+    postId,
+  };
+}
+export function gotComments(comments, postId) {
+  return {
+    type: "GET_COMMENTS",
+    comments,
     postId,
   };
 }

@@ -3,12 +3,14 @@ import Comment from "./Comment";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getPost } from "./actionCreators";
 import { v4 as uuid } from "uuid";
+import { getComments } from "./actionCreators";
 const Comments = ({ postId }) => {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post);
-  useEffect(() => {
-    dispatch(getPost(postId));
-  }, [dispatch, postId]);
+  // useEffect(() => {
+  //   dispatch(getPost(postId));
+  //   dispatch(getComments(postId));
+  // }, [dispatch, postId]);
   return (
     <>
       {post.comments && (

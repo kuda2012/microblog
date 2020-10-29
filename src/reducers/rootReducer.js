@@ -1,4 +1,4 @@
-const INITIAL_STATE = { posts: [], editing: false, post: {} };
+const INITIAL_STATE = { posts: [], editing: false, post: {}, comments: [] };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -18,13 +18,14 @@ function rootReducer(state = INITIAL_STATE, action) {
     case "EDIT_POST":
       return { ...state, post: action.post };
     case "ADD_COMMENT":
-      let addPostComment = state.posts.map((post) => {
-        if (post.id === action.postId) {
-          post.comments.push(action.payload);
-        }
-        return post;
-      });
-      return { ...state, posts: addPostComment };
+      return {
+        ...state,
+        post: state.posts.filter((post) => post.id == action.postId)[0],
+      };
+    case "GET_COMMENTS":
+      let post = state.posts.filter((post) => post.id == action.postId)[0];
+      post.comments = action.comments;
+      return { ...state, post: post };
     case "DELETE_COMMENT":
       let deletePostComment = state.posts.map((post) => {
         if (post.id === action.postId) {

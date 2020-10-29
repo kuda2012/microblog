@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CommentForm.css";
-import { useDispatch } from "react-redux";
-const CommentForm = ({ post }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { addComment } from "./actionCreators";
+import { getPost } from "./actionCreators";
+const CommentForm = ({ postId }) => {
   const dispatch = useDispatch();
+  const post = useSelector((state) => state.post);
+  useEffect(() => {
+    dispatch(getPost(postId));
+  }, [dispatch, postId]);
   const INITIAL_STATE = { text: "" };
   const [formData, setFormData] = useState(INITIAL_STATE);
   const handleChange = (e) => {
@@ -12,8 +18,7 @@ const CommentForm = ({ post }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.text === "") return;
-    formData["id"] = post.comments.length === 0 ? 0 : post.comments.length;
-    dispatch({ type: "ADD_COMMENT", payload: formData, postId: post.id });
+    dispatch(addComment(postId, formData));
     setFormData(INITIAL_STATE);
   };
   return (
