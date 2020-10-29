@@ -5,15 +5,9 @@ function rootReducer(state = INITIAL_STATE, action) {
     case "ADD_POST":
       return { ...state, posts: [...state.posts, action.post] };
     case "DELETE_POST":
-      let deletePosts = state.posts.filter(
-        (post) => post.id !== action.payload
-      );
       return {
         ...state,
-        posts: deletePosts.map((post, i) => {
-          post.id = i;
-          return post;
-        }),
+        posts: state.posts.filter((post) => post.id != action.postId),
       };
     case "GET_POST":
       return { ...state, post: action.post };
@@ -22,13 +16,7 @@ function rootReducer(state = INITIAL_STATE, action) {
     case "EDITING_MODE":
       return { ...state, editing: !state.editing };
     case "EDIT_POST":
-      let editPosts = state.posts.map((post) => {
-        if (post.id === action.payload.id) {
-          post = action.payload;
-        }
-        return post;
-      });
-      return { ...state, posts: editPosts };
+      return { ...state, post: action.post };
     case "ADD_COMMENT":
       let addPostComment = state.posts.map((post) => {
         if (post.id === action.postId) {

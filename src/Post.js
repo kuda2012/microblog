@@ -5,27 +5,25 @@ import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "./actionCreators";
+import { getPost, deletePost } from "./actionCreators";
+
 const Post = () => {
   let { postId } = useParams();
   const dispatch = useDispatch();
   let history = useHistory();
-  const { post, editing } = useSelector((state) => state);
+  const posts = useSelector((state) => state.posts);
+  const post = posts.filter((post) => post.id == postId)[0];
+  const editing = useSelector((state) => state.editing);
+
   useEffect(() => {
     dispatch(getPost(postId));
   }, [dispatch]);
   if (!post) {
     history.push("/");
   }
-  const [formData, setFormData] = useState({
-    title: post ? post.title : "",
-    description: post ? post.description : "",
-    body: post ? post.body : "",
-    id: post ? post.id : "",
-  });
   return (
     <>
-      {Object.keys(post).length != 0 && !editing && (
+      {post && !editing && (
         <>
           <div className="Post-container">
             <div className="Post">
@@ -44,7 +42,7 @@ const Post = () => {
                 className="btn btn-danger"
                 id="Post-delete"
                 onClick={() => {
-                  dispatch({ type: "DELETE_POST", payload: post.id });
+                  dispatch(deletePost(postId));
                   history.push("/");
                 }}
               >
@@ -52,11 +50,11 @@ const Post = () => {
               </button>
             </div>
           </div>
-          {<Comments postId={postId} post={post} />}
-          <CommentForm post={post} />
+          {<Comments postId={postId} />}
+          <CommentForm postId={postId} />
         </>
       )}
-      {editing && <PostForm postData={formData} post={post} />}
+      {editing && Object.keys(post).length != 0 && <PostForm post={post} />}
     </>
   );
 };

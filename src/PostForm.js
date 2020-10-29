@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { addPost } from "./actionCreators";
+import { addPost, editPost } from "./actionCreators";
 import "./PostForm.css";
 
-const PostForm = ({ postData }) => {
+const PostForm = ({ post }) => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
   const history = useHistory();
-  const INITIAL_STATE = postData
-    ? postData
+  const INITIAL_STATE = post
+    ? post
     : {
         title: "",
         description: "",
@@ -23,9 +22,14 @@ const PostForm = ({ postData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.title === "" || formData.body === "") return;
-    dispatch(addPost(formData));
-    if (postData) dispatch({ type: "EDITING_MODE" });
-    history.push(postData ? `/${postData.id}` : "/");
+    if (!post) {
+      dispatch(addPost(formData));
+    } else {
+      dispatch(editPost(formData));
+      dispatch({ type: "EDITING_MODE" });
+    }
+
+    history.push(post ? `/posts/${post.id}` : "/");
   };
   return (
     <div>
@@ -67,7 +71,7 @@ const PostForm = ({ postData }) => {
             value="Cancel"
             onClick={() => {
               dispatch({ type: "EDITING_MODE" });
-              history.push("/");
+              history.push(post ? `/posts/${post.id}` : "/");
             }}
           />
         </div>
