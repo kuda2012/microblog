@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import PostForm from "./PostForm";
 import Post from "./Post";
 import Home from "./Home";
@@ -16,6 +16,7 @@ const Router = () => {
       <Route exact path="/posts/:postId">
         <Post />
       </Route>
+      <Redirect to="/" />
     </Switch>
   );
 };

@@ -1,24 +1,20 @@
 import React from "react";
 import "./Comment.css";
 import { useDispatch } from "react-redux";
-
+import { deleteComment } from "./actionCreators";
 const Comment = ({ comment, postId }) => {
   const dispatch = useDispatch();
   return (
     <li>
       {comment.text}
-      <button
-        className="btn btn-danger Comment-delete"
+      <span
+        className="Comment-delete"
         onClick={() => {
-          dispatch({
-            type: "DELETE_COMMENT",
-            payload: comment,
-            postId: postId,
-          });
+          dispatch(deleteComment(postId, comment.id));
         }}
       >
-        X
-      </button>
+        ❌
+      </span>
     </li>
   );
 };

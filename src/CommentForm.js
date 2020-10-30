@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./CommentForm.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "./actionCreators";
-import { getPost } from "./actionCreators";
 const CommentForm = ({ postId }) => {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post);
-  useEffect(() => {
-    dispatch(getPost(postId));
-  }, [dispatch, postId]);
   const INITIAL_STATE = { text: "" };
   const [formData, setFormData] = useState(INITIAL_STATE);
   const handleChange = (e) => {
@@ -22,17 +18,21 @@ const CommentForm = ({ postId }) => {
     setFormData(INITIAL_STATE);
   };
   return (
-    <form onSubmit={handleSubmit} className="CommentForm">
-      <input
-        type="text"
-        placeholder="New Comment"
-        name="text"
-        value={formData.text}
-        onChange={handleChange}
-        className="CommentForm-input"
-      />
-      <button className="btn btn-primary CommentForm-add">Add</button>
-    </form>
+    <>
+      {post && (
+        <form onSubmit={handleSubmit} className="CommentForm">
+          <input
+            type="text"
+            placeholder="New Comment"
+            name="text"
+            value={formData.text}
+            onChange={handleChange}
+            className="CommentForm-input"
+          />
+          <button className="btn btn-primary CommentForm-add">Add</button>
+        </form>
+      )}
+    </>
   );
 };
 

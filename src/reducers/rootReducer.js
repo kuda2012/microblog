@@ -1,4 +1,4 @@
-const INITIAL_STATE = { posts: [], editing: false, post: {}, comments: [] };
+const INITIAL_STATE = { posts: [], editing: false, post: {} };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -17,29 +17,21 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, editing: !state.editing };
     case "EDIT_POST":
       return { ...state, post: action.post };
+    case "RESET_POST":
+      return { ...state, post: {} };
     case "ADD_COMMENT":
       return {
         ...state,
-        post: state.posts.filter((post) => post.id == action.postId)[0],
+        post: action.post,
       };
-    case "GET_COMMENTS":
-      let post = state.posts.filter((post) => post.id == action.postId)[0];
-      post.comments = action.comments;
-      return { ...state, post: post };
     case "DELETE_COMMENT":
-      let deletePostComment = state.posts.map((post) => {
-        if (post.id === action.postId) {
-          post.comments = post.comments.filter(
-            (comment) => comment.id !== action.payload.id
-          );
-          post.comments = post.comments.map((comment, i) => {
-            comment.id = i;
-            return comment;
-          });
-        }
-        return post;
-      });
-      return { ...state, posts: deletePostComment };
+      return { ...state, post: action.post };
+    case "CHANGE_VOTE":
+      return {
+        ...state,
+        posts: action.posts,
+        post: action.post,
+      };
     default:
       return state;
   }

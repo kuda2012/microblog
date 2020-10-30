@@ -5,19 +5,17 @@ import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, deletePost } from "./actionCreators";
+import { getPost, deletePost, vote } from "./actionCreators";
 
 const Post = () => {
   let { postId } = useParams();
   const dispatch = useDispatch();
   let history = useHistory();
-  const posts = useSelector((state) => state.posts);
-  const post = posts.filter((post) => post.id == postId)[0];
-  const editing = useSelector((state) => state.editing);
-
+  const post = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(getPost(postId));
-  }, [dispatch]);
+  }, [dispatch, postId]);
+  const editing = useSelector((state) => state.editing);
   if (!post) {
     history.push("/");
   }
@@ -30,6 +28,11 @@ const Post = () => {
               <h1>{post.title}</h1>
               <i>{post.description}</i>
               <p>{post.body}</p>
+              <span className="VoteBox">
+                {post.votes} votes{" "}
+                <span onClick={() => dispatch(vote(post.id, "up"))}>👍</span>
+                <span onClick={() => dispatch(vote(post.id, "down"))}>👎🏽</span>
+              </span>
             </div>
             <div className="Post-buttons">
               <button
@@ -50,7 +53,7 @@ const Post = () => {
               </button>
             </div>
           </div>
-          {<Comments postId={postId} />}
+          {<Comments />}
           <CommentForm postId={postId} />
         </>
       )}

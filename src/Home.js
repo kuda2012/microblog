@@ -5,15 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "./actionCreators";
 
 const Home = () => {
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts).sort((a, b) =>
+    a.votes > b.votes ? -1 : 1
+  );
   const editing = useSelector((state) => state.editing);
+  const post = useSelector((state) => state.post);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (editing) {
       dispatch({ type: "EDITING_MODE" });
     }
-    dispatch(getPosts());
+    if (posts.length === 0) {
+      dispatch(getPosts());
+    }
+    if (Object.keys(post).length > 0) {
+      dispatch({
+        type: "RESET_POST",
+      });
+    }
   }, [dispatch, editing]);
   return (
     <div>

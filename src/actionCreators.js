@@ -1,5 +1,4 @@
 import axios from "axios";
-import { functionsIn } from "lodash";
 export function getPosts() {
   return async function (dispatch) {
     try {
@@ -35,9 +34,12 @@ export function getPost(postId) {
 export function editPost(formData) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.put(
+      await axios.put(
         `http://localhost:5000/api/posts/${formData.id}`,
         formData
+      );
+      const { data } = await axios.get(
+        `http://localhost:5000/api/posts/${formData.id}`
       );
       dispatch(postEdited(data));
     } catch (error) {}
@@ -59,20 +61,40 @@ export function addComment(postId, formData) {
         `http://localhost:5000/api/posts/${postId}/comments`,
         formData
       );
-      dispatch(commentAdded(postId));
+      const { data } = await axios.get(
+        `http://localhost:5000/api/posts/${postId}`
+      );
+      dispatch(commentAdded(data));
     } catch (error) {}
   };
 }
-export function getComments(postId) {
+
+export function deleteComment(postId, commentId) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/posts/${postId}/comments`
+      await axios.delete(
+        `http://localhost:5000/api/posts/${postId}/comments/${commentId}`
       );
-      dispatch(gotComments(data, postId));
+      const { data } = await axios.get(
+        `http://localhost:5000/api/posts/${postId}`
+      );
+      dispatch(commentDeleted(data));
     } catch (error) {}
   };
 }
+export function vote(postId, direction) {
+  return async function (dispatch) {
+    try {
+      await axios.post(
+        `http://localhost:5000/api/posts/${postId}/vote/${direction}`
+      );
+      const posts = await axios.get(`http://localhost:5000/api/posts`);
+      const post = await axios.get(`http://localhost:5000/api/posts/${postId}`);
+      dispatch(voteReceived(posts.data, post.data));
+    } catch (error) {}
+  };
+}
+
 export function gotPosts(posts) {
   return {
     type: "GET_POSTS",
@@ -106,16 +128,22 @@ export function postDeleted(postId) {
   };
 }
 
-export function commentAdded(postId) {
+export function commentAdded(post) {
   return {
     type: "ADD_COMMENT",
-    postId,
+    post,
   };
 }
-export function gotComments(comments, postId) {
+export function commentDeleted(post) {
   return {
-    type: "GET_COMMENTS",
-    comments,
-    postId,
+    type: "DELETE_COMMENT",
+    post,
+  };
+}
+export function voteReceived(posts, post) {
+  return {
+    type: "CHANGE_VOTE",
+    posts,
+    post,
   };
 }
