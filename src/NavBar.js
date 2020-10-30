@@ -15,11 +15,6 @@ const NavBar = () => {
               Add a new post
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink className="link" to="/">
-              Blog
-            </NavLink>
-          </NavItem>
         </Nav>
       </Navbar>
     </div>

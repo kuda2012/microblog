@@ -20,3 +20,7 @@ p {
 #Post-delete {
   margin-left: 5px;
 }
+.VoteBox {
+  margin-left: 10px;
+  cursor: pointer;
+}
